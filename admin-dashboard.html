@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Hệ thống KTX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="Logo_van_lang.webp.png" alt="Logo" class="h-12 w-auto mr-4">
+                    <span class="text-xl font-bold text-gray-800">Hệ thống Quản lý KTX - Admin</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-700" id="adminName">Admin</span>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                        Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Dashboard Quản trị</h1>
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-gray-500">Đơn đăng ký chờ duyệt</div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900" id="pendingRegistrations">0</div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-gray-500">Yêu cầu miễn/giảm phí</div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900" id="pendingFeeRequests">0</div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-gray-500">Lịch hẹn hôm nay</div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900" id="todayAppointments">0</div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-gray-500">Phòng trống</div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900" id="availableRooms">0</div>
+                </div>
+            </div>
+
+            <!-- Menu Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <a href="admin-config.html" class="bg-white rounded-lg shadow-lg p-6 card-hover cursor-pointer">
+                    <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mb-4">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Cấu hình hệ thống</h3>
+                    <p class="text-sm text-gray-600">Quản lý cấu hình và dữ liệu</p>
+                </a>
+
+                <a href="admin-process-registration.html" class="bg-white rounded-lg shadow-lg p-6 card-hover cursor-pointer">
+                    <div class="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mb-4">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Xử lý đơn đăng ký</h3>
+                    <p class="text-sm text-gray-600">Duyệt và xử lý đơn đăng ký</p>
+                </a>
+
+                <a href="admin-checkin.html" class="bg-white rounded-lg shadow-lg p-6 card-hover cursor-pointer">
+                    <div class="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-lg mb-4">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Xử lý vào ở</h3>
+                    <p class="text-sm text-gray-600">Quản lý thủ tục vào ở</p>
+                </a>
+
+                <a href="admin-fee-request.html" class="bg-white rounded-lg shadow-lg p-6 card-hover cursor-pointer">
+                    <div class="flex items-center justify-center w-12 h-12 bg-yellow-100 rounded-lg mb-4">
+                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Xử lý yêu cầu phí</h3>
+                    <p class="text-sm text-gray-600">Duyệt yêu cầu miễn/giảm phí</p>
+                </a>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Hoạt động gần đây</h2>
+                <div id="recentActivity" class="space-y-4">
+                    <p class="text-gray-500">Chưa có hoạt động nào</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>
+

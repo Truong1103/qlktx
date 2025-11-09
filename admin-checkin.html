@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xử lý vào ở - Admin KTX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="Logo_van_lang.webp.png" alt="Logo" class="h-12 w-auto mr-4">
+                    <a href="admin-dashboard.html" class="text-xl font-bold text-gray-800">Hệ thống Quản lý KTX - Admin</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="admin-dashboard.html" class="text-gray-700 hover:text-gray-900">Dashboard</a>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                        Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Xử lý thủ tục Vào ở KTX</h1>
+
+            <!-- Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-gray-500">Lịch hẹn hôm nay</div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900" id="todayCount">0</div>
+                </div>
+                <div class="bg-blue-50 rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-blue-600">Đã tiếp nhận</div>
+                    <div class="mt-2 text-2xl font-semibold text-blue-600" id="checkedInCount">0</div>
+                </div>
+                <div class="bg-yellow-50 rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-yellow-600">Chờ tiếp nhận</div>
+                    <div class="mt-2 text-2xl font-semibold text-yellow-600" id="pendingCheckinCount">0</div>
+                </div>
+                <div class="bg-green-50 rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-green-600">Tổng đã vào ở</div>
+                    <div class="mt-2 text-2xl font-semibold text-green-600" id="totalCheckedIn">0</div>
+                </div>
+            </div>
+
+            <!-- Today's Appointments -->
+            <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Lịch hẹn hôm nay</h2>
+                <div id="todayAppointments" class="space-y-4">
+                    <p class="text-gray-500">Đang tải...</p>
+                </div>
+            </div>
+
+            <!-- Check-in Form -->
+            <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Tiếp nhận sinh viên</h2>
+                <form id="checkinForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Mã hẹn hoặc MSSV</label>
+                        <input type="text" id="appointmentCode" name="appointmentCode" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="Nhập mã hẹn hoặc MSSV">
+                    </div>
+                    <button type="submit" 
+                        class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                        Tìm kiếm
+                    </button>
+                </form>
+            </div>
+
+            <!-- Student Info -->
+            <div id="studentInfo" class="bg-white shadow-lg rounded-lg p-6 mb-6 hidden">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Thông tin sinh viên</h2>
+                <div id="studentInfoContent" class="space-y-4">
+                    <!-- Student info will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Verification -->
+            <div id="verificationSection" class="bg-white shadow-lg rounded-lg p-6 mb-6 hidden">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Xác thực thông tin</h2>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <input type="checkbox" id="verifyId" 
+                            class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="verifyId" class="ml-2 block text-sm text-gray-900">
+                            Đã đối chiếu giấy tờ tùy thân với hồ sơ
+                        </label>
+                    </div>
+                    <div class="flex items-start">
+                        <input type="checkbox" id="verifyPayment" 
+                            class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="verifyPayment" class="ml-2 block text-sm text-gray-900">
+                            Đã kiểm tra trạng thái thanh toán
+                        </label>
+                    </div>
+                    <div class="flex items-start">
+                        <input type="checkbox" id="verifyContract" 
+                            class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="verifyContract" class="ml-2 block text-sm text-gray-900">
+                            Đã ký biên bản bàn giao phòng
+                        </label>
+                    </div>
+                    <button onclick="completeCheckin()" 
+                        class="w-full px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                        Hoàn tất thủ tục vào ở
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="admin-checkin.js"></script>
+</body>
+</html>
+

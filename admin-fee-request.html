@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xử lý yêu cầu phí - Admin KTX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="Logo_van_lang.webp.png" alt="Logo" class="h-12 w-auto mr-4">
+                    <a href="admin-dashboard.html" class="text-xl font-bold text-gray-800">Hệ thống Quản lý KTX - Admin</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="admin-dashboard.html" class="text-gray-700 hover:text-gray-900">Dashboard</a>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                        Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Xử lý yêu cầu xin Miễn/Hoàn/Giảm phí</h1>
+
+            <!-- Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-gray-500">Tổng yêu cầu</div>
+                    <div class="mt-2 text-2xl font-semibold text-gray-900" id="totalRequests">0</div>
+                </div>
+                <div class="bg-yellow-50 rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-yellow-600">Chờ xử lý</div>
+                    <div class="mt-2 text-2xl font-semibold text-yellow-600" id="pendingRequests">0</div>
+                </div>
+                <div class="bg-green-50 rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-green-600">Đã duyệt</div>
+                    <div class="mt-2 text-2xl font-semibold text-green-600" id="approvedRequests">0</div>
+                </div>
+                <div class="bg-red-50 rounded-lg shadow p-6">
+                    <div class="text-sm font-medium text-red-600">Từ chối</div>
+                    <div class="mt-2 text-2xl font-semibold text-red-600" id="rejectedRequests">0</div>
+                </div>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="bg-white shadow-lg rounded-lg p-4 mb-6">
+                <div class="flex flex-wrap gap-4">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm theo MSSV, tên, mã yêu cầu..." 
+                        onkeyup="handleSearch()"
+                        class="flex-1 min-w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    <select id="typeFilter" onchange="handleSearch()"
+                        class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="all">Tất cả loại</option>
+                        <option value="exemption">Miễn phí</option>
+                        <option value="reduction">Giảm phí</option>
+                        <option value="refund">Hoàn phí</option>
+                    </select>
+                    <select id="dateFilter" onchange="handleSearch()"
+                        class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="all">Tất cả thời gian</option>
+                        <option value="today">Hôm nay</option>
+                        <option value="week">Tuần này</option>
+                        <option value="month">Tháng này</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="mb-6 border-b border-gray-200">
+                <nav class="-mb-px flex space-x-8">
+                    <button onclick="filterRequests('pending')" 
+                        class="filter-tab active border-b-2 border-indigo-500 py-4 px-1 text-sm font-medium text-indigo-600">
+                        Chờ xử lý (<span id="pendingCount">0</span>)
+                    </button>
+                    <button onclick="filterRequests('approved')" 
+                        class="filter-tab border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        Đã duyệt (<span id="approvedCount">0</span>)
+                    </button>
+                    <button onclick="filterRequests('rejected')" 
+                        class="filter-tab border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        Từ chối (<span id="rejectedCount">0</span>)
+                    </button>
+                    <button onclick="filterRequests('all')" 
+                        class="filter-tab border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+                        Tất cả
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Requests List -->
+            <div id="requestsList" class="space-y-4">
+                <p class="text-gray-500">Đang tải...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Detail Modal -->
+    <div id="detailModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-medium text-gray-900">Chi tiết yêu cầu</h3>
+                    <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div id="requestDetail" class="space-y-4">
+                    <!-- Detail content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="admin-fee-request.js"></script>
+</body>
+</html>
+

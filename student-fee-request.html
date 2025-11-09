@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xin miễn/giảm phí - Hệ thống KTX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="Logo_van_lang.webp.png" alt="Logo" class="h-12 w-auto mr-4">
+                    <a href="student-dashboard.html" class="text-xl font-bold text-gray-800">Hệ thống Quản lý KTX</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="student-dashboard.html" class="text-gray-700 hover:text-gray-900">Dashboard</a>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                        Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Xin miễn/giảm phí KTX</h1>
+
+            <!-- Period Info -->
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+                <div class="flex">
+                    <div class="ml-3">
+                        <p class="text-sm text-blue-700">
+                            <strong>Thời gian nộp đơn:</strong> 
+                            <span id="requestPeriod">Đang tải...</span>
+                        </p>
+                        <p class="text-sm text-blue-700 mt-2">
+                            <strong>Lưu ý:</strong> Thời gian hoàn mỗi đơn là 15 ngày kể từ ngày có thông báo đồng phí
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request Form -->
+            <form id="feeRequestForm" class="bg-white shadow-lg rounded-lg p-8 space-y-6">
+                <!-- Request Type -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Loại yêu cầu</label>
+                    <select id="requestType" name="requestType" required 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">-- Chọn loại yêu cầu --</option>
+                        <option value="exemption">Miễn phí</option>
+                        <option value="reduction">Giảm phí</option>
+                        <option value="refund">Hoàn phí</option>
+                    </select>
+                </div>
+
+                <!-- Reason -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Lý do xin miễn/giảm/hoàn phí</label>
+                    <textarea id="reason" name="reason" rows="5" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        placeholder="Trình bày chi tiết lý do xin miễn/giảm/hoàn phí..."></textarea>
+                </div>
+
+                <!-- Personal Information -->
+                <div class="border-t pt-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Thông tin cá nhân</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Họ và tên</label>
+                            <input type="text" id="fullName" name="fullName" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">MSSV</label>
+                            <input type="text" id="mssv" name="mssv" required readonly
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Số điện thoại</label>
+                            <input type="tel" id="phone" name="phone" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supporting Documents -->
+                <div class="border-t pt-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Giấy tờ minh chứng</h3>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tải lên các file minh chứng</label>
+                        <input type="file" id="supportingDocs" name="supportingDocs" accept=".pdf,.jpg,.jpeg,.png" multiple
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <p class="mt-1 text-sm text-gray-500">Định dạng: PDF, JPG, PNG (tối đa 5MB mỗi file)</p>
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="border-t pt-6">
+                    <div class="flex items-start">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required
+                            class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="agreeTerms" class="ml-2 block text-sm text-gray-900">
+                            Tôi cam kết các thông tin trên là đúng sự thật
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-end space-x-4 pt-6 border-t">
+                    <a href="student-dashboard.html" class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Hủy
+                    </a>
+                    <button type="submit" 
+                        class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Gửi đơn
+                    </button>
+                </div>
+            </form>
+
+            <!-- Request History -->
+            <div class="mt-8 bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Lịch sử yêu cầu</h2>
+                <div id="requestHistory" class="space-y-4">
+                    <p class="text-gray-500">Chưa có yêu cầu nào</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="student-fee-request.js"></script>
+</body>
+</html>
+
