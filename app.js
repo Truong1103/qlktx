@@ -13,6 +13,7 @@ const storage = {
         { username: 'admin', password: '123', role: 'admin', name: 'Admin KTX' }
     ],
     registrations: [
+        // Demo data cho student-confirm (MSSV: 2374802010283) - Step 1: Xác nhận giữ chỗ
         {
             id: 'REG001',
             mssv: '2374802010283',
@@ -23,10 +24,14 @@ const storage = {
             dob: '2005-01-15',
             roomType: '4',
             duration: '2',
-            status: 'pending',
-            createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+            status: 'approved',
+            roomId: 'P103',
+            approvedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+            confirmed: false,
+            createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
             updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
         },
+        // Demo data cho student-confirm (MSSV: 2374802010445) - Step 4: Ký biên bản
         {
             id: 'REG002',
             mssv: '2374802010445',
@@ -39,17 +44,126 @@ const storage = {
             duration: '1',
             status: 'approved',
             roomId: 'P101',
-            approvedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+            approvedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
             confirmed: true,
-            confirmedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+            confirmedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
             paid: true,
             appointmentScheduled: true,
-            appointmentDate: new Date().toISOString().split('T')[0],
+            appointmentDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
             appointmentTime: '14:00',
-            appointmentCode: 'AP' + Date.now(),
-            contractSigned: true,
-            createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+            appointmentCode: 'AP' + (Date.now() - 1000000),
+            contractSigned: false,
+            createdAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
             updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+        },
+        // Demo data cho admin - Đơn chờ duyệt
+        {
+            id: 'REG003',
+            mssv: '2374802010101',
+            fullName: 'Nguyễn Văn A',
+            phone: '0901111111',
+            email: 'nguyenvana@example.com',
+            idCard: '001111111111',
+            dob: '2005-05-10',
+            roomType: '4',
+            duration: '2',
+            status: 'pending',
+            createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+            updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            id: 'REG004',
+            mssv: '2374802010102',
+            fullName: 'Trần Thị B',
+            phone: '0902222222',
+            email: 'tranthib@example.com',
+            idCard: '002222222222',
+            dob: '2005-06-15',
+            roomType: '6',
+            duration: '1',
+            status: 'pending',
+            createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+            updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            id: 'REG005',
+            mssv: '2374802010103',
+            fullName: 'Lê Văn C',
+            phone: '0903333333',
+            email: 'levanc@example.com',
+            idCard: '003333333333',
+            dob: '2005-07-20',
+            roomType: '8',
+            duration: '2',
+            status: 'pending',
+            createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+            updatedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
+        },
+        // Demo data cho admin - Đơn đã duyệt
+        {
+            id: 'REG006',
+            mssv: '2374802010104',
+            fullName: 'Phạm Thị D',
+            phone: '0904444444',
+            email: 'phamthid@example.com',
+            idCard: '004444444444',
+            dob: '2005-08-25',
+            roomType: '4',
+            duration: '1',
+            status: 'approved',
+            roomId: 'P102',
+            approvedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+            createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+            updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            id: 'REG007',
+            mssv: '2374802010105',
+            fullName: 'Hoàng Văn E',
+            phone: '0905555555',
+            email: 'hoangvane@example.com',
+            idCard: '005555555555',
+            dob: '2005-09-30',
+            roomType: '6',
+            duration: '2',
+            status: 'approved',
+            roomId: 'P202',
+            approvedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+            confirmed: true,
+            confirmedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+            createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+            updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+        },
+        // Demo data cho admin - Đơn bị từ chối
+        {
+            id: 'REG008',
+            mssv: '2374802010106',
+            fullName: 'Vũ Thị F',
+            phone: '0906666666',
+            email: 'vuthif@example.com',
+            idCard: '006666666666',
+            dob: '2005-10-05',
+            roomType: '4',
+            duration: '1',
+            status: 'rejected',
+            rejectionReason: 'Thiếu giấy tờ xác minh danh tính',
+            createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+            updatedAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            id: 'REG009',
+            mssv: '2374802010107',
+            fullName: 'Đỗ Văn G',
+            phone: '0907777777',
+            email: 'dovang@example.com',
+            idCard: '007777777777',
+            dob: '2005-11-10',
+            roomType: '6',
+            duration: '2',
+            status: 'rejected',
+            rejectionReason: 'Không đủ điều kiện đăng ký KTX',
+            createdAt: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
+            updatedAt: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000).toISOString()
         }
     ],
     feeRequests: [
@@ -81,14 +195,25 @@ const storage = {
             updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
         }
     ],
-    payments: [],
+    payments: [
+        // Demo payment cho MSSV 2374802010445 (đã thanh toán phí giữ chỗ)
+        {
+            id: 'PAY001',
+            mssv: '2374802010445',
+            type: 'deposit',
+            amount: 500000,
+            status: 'completed',
+            createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+            description: 'Phí giữ chỗ KTX'
+        }
+    ],
     rooms: [
-        { id: 'P101', type: '4 người', status: 'reserved', price: 500000 },
-        { id: 'P102', type: '6 người', status: 'available', price: 400000 },
-        { id: 'P201', type: '4 người', status: 'occupied', price: 500000 },
-        { id: 'P103', type: '4 người', status: 'available', price: 500000 },
-        { id: 'P202', type: '6 người', status: 'available', price: 400000 },
-        { id: 'P301', type: '8 người', status: 'available', price: 300000 }
+        { id: 'P101', type: '6 người', status: 'reserved', price: 400000, capacity: 6, createdAt: new Date().toISOString() },
+        { id: 'P102', type: '4 người', status: 'available', price: 500000, capacity: 4, createdAt: new Date().toISOString() },
+        { id: 'P201', type: '4 người', status: 'occupied', price: 500000, capacity: 4, createdAt: new Date().toISOString() },
+        { id: 'P103', type: '4 người', status: 'available', price: 500000, capacity: 4, createdAt: new Date().toISOString() },
+        { id: 'P202', type: '6 người', status: 'available', price: 400000, capacity: 6, createdAt: new Date().toISOString() },
+        { id: 'P301', type: '8 người', status: 'available', price: 300000, capacity: 8, createdAt: new Date().toISOString() }
     ],
     systemConfig: {
         registrationPeriod: { 

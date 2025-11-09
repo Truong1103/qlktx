@@ -41,27 +41,51 @@
 
             <!-- Step 1: Confirm Reservation -->
             <div id="step1" class="bg-white shadow-lg rounded-lg p-6 mb-6 hidden">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">1. Xác nhận giữ chỗ</h2>
+                <div class="flex items-center mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold mr-3">1</div>
+                    <h2 class="text-xl font-semibold text-gray-900">Xác nhận giữ chỗ</h2>
+                </div>
                 <div class="space-y-4">
                     <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
                         <p class="text-sm text-blue-700">
-                            Đơn đăng ký của bạn đã được duyệt. Vui lòng xác nhận giữ chỗ trong thời hạn quy định.
+                            <strong>Thông báo:</strong> Đơn đăng ký của bạn đã được duyệt. Vui lòng xác nhận giữ chỗ trong thời hạn quy định (7 ngày kể từ ngày duyệt).
                         </p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Phòng được phân</label>
                             <input type="text" id="assignedRoom" readonly
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 font-semibold">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Thời hạn xác nhận</label>
                             <input type="text" id="confirmDeadline" readonly
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">
+                            <p class="text-xs text-gray-500 mt-1" id="confirmDeadlineWarning"></p>
                         </div>
                     </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-900 mb-2">Thông tin phòng</h4>
+                        <div class="grid grid-cols-2 gap-3 text-sm">
+                            <div>
+                                <span class="text-gray-500">Loại phòng:</span>
+                                <span class="font-medium ml-2" id="roomTypeInfo">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Giá phòng:</span>
+                                <span class="font-medium ml-2" id="roomPriceInfo">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <input type="checkbox" id="confirmReservationCheck" 
+                            class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="confirmReservationCheck" class="ml-2 block text-sm text-gray-900">
+                            Tôi xác nhận muốn giữ chỗ phòng này và đồng ý với các điều khoản
+                        </label>
+                    </div>
                     <button onclick="confirmReservation()" 
-                        class="w-full md:w-auto px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                        class="w-full md:w-auto px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-semibold">
                         Xác nhận giữ chỗ
                     </button>
                 </div>
@@ -69,27 +93,53 @@
 
             <!-- Step 2: Payment -->
             <div id="step2" class="bg-white shadow-lg rounded-lg p-6 mb-6 hidden">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">2. Thanh toán phí giữ chỗ/đầu vào</h2>
+                <div class="flex items-center mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold mr-3">2</div>
+                    <h2 class="text-xl font-semibold text-gray-900">Thanh toán phí giữ chỗ/đầu vào</h2>
+                </div>
                 <div class="space-y-4">
                     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
                         <p class="text-sm text-yellow-700">
-                            Vui lòng thanh toán phí giữ chỗ trong thời hạn quy định để hoàn tất thủ tục.
+                            <strong>Lưu ý:</strong> Vui lòng thanh toán phí giữ chỗ trong thời hạn quy định (5 ngày kể từ ngày xác nhận giữ chỗ). Hồ sơ hết hạn thanh toán sẽ tự động bị hủy (BR4).
                         </p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Số tiền cần thanh toán</label>
                             <input type="text" id="paymentAmount" readonly
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 font-semibold text-lg">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 font-semibold text-lg text-indigo-600">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Thời hạn thanh toán</label>
                             <input type="text" id="paymentDeadline" readonly
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">
+                            <p class="text-xs text-gray-500 mt-1" id="paymentDeadlineWarning"></p>
                         </div>
                     </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-900 mb-2">Chi tiết phí</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Phí giữ chỗ:</span>
+                                <span class="font-medium" id="depositFee">500,000 VNĐ</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Phí đầu vào:</span>
+                                <span class="font-medium" id="entranceFee">0 VNĐ</span>
+                            </div>
+                            <div class="border-t pt-2 flex justify-between font-semibold">
+                                <span>Tổng cộng:</span>
+                                <span class="text-indigo-600" id="totalPaymentFee">500,000 VNĐ</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <p class="text-sm text-blue-700">
+                            <strong>Hướng dẫn:</strong> Sau khi bấm "Thanh toán Online", bạn sẽ được chuyển đến trang thanh toán. Vui lòng hoàn tất thanh toán để tiếp tục thủ tục.
+                        </p>
+                    </div>
                     <button onclick="goToPayment()" 
-                        class="w-full md:w-auto px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                        class="w-full md:w-auto px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 font-semibold">
                         Thanh toán Online
                     </button>
                 </div>
@@ -97,74 +147,236 @@
 
             <!-- Step 3: Schedule Appointment -->
             <div id="step3" class="bg-white shadow-lg rounded-lg p-6 mb-6 hidden">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">3. Đăng ký lịch hẹn</h2>
+                <div class="flex items-center mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">3</div>
+                    <h2 class="text-xl font-semibold text-gray-900">Làm thủ tục tại KTX/Online</h2>
+                </div>
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Chọn ngày hẹn</label>
-                        <input type="date" id="appointmentDate" 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                        <p class="text-sm text-blue-700">
+                            <strong>Lưu ý (BR1):</strong> Sinh viên chỉ được nhận phòng trong thời gian có trong lịch hẹn. Vui lòng đăng ký lịch hẹn phù hợp với thời gian của bạn.
+                        </p>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Chọn giờ hẹn</label>
-                        <select id="appointmentTime" 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="">-- Chọn giờ --</option>
-                            <option value="08:00">08:00</option>
-                            <option value="09:00">09:00</option>
-                            <option value="10:00">10:00</option>
-                            <option value="14:00">14:00</option>
-                            <option value="15:00">15:00</option>
-                            <option value="16:00">16:00</option>
-                        </select>
+                    
+                    <!-- 3.1 Đăng ký lịch hẹn -->
+                    <div class="border rounded-lg p-4 bg-gray-50">
+                        <h3 class="font-semibold text-gray-900 mb-3">3.1 Đăng ký lịch hẹn đến KTX</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Chọn ngày hẹn <span class="text-red-500">*</span></label>
+                                <input type="date" id="appointmentDate" min="" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                <p class="text-xs text-gray-500 mt-1">Vui lòng chọn ngày trong tương lai</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Chọn giờ hẹn <span class="text-red-500">*</span></label>
+                                <select id="appointmentTime" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option value="">-- Chọn giờ --</option>
+                                    <option value="08:00">08:00 - 09:00</option>
+                                    <option value="09:00">09:00 - 10:00</option>
+                                    <option value="10:00">10:00 - 11:00</option>
+                                    <option value="14:00">14:00 - 15:00</option>
+                                    <option value="15:00">15:00 - 16:00</option>
+                                    <option value="16:00">16:00 - 17:00</option>
+                                </select>
+                            </div>
+                            <div class="bg-yellow-50 p-3 rounded">
+                                <p class="text-xs text-yellow-700">
+                                    <strong>Lưu ý:</strong> Sau khi đăng ký, bạn sẽ nhận được mã hẹn. Vui lòng mang mã hẹn và giấy tờ tùy thân khi đến KTX (BR2).
+                                </p>
+                            </div>
+                            <button onclick="scheduleAppointment()" 
+                                class="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold">
+                                Đăng ký lịch hẹn
+                            </button>
+                        </div>
                     </div>
-                    <button onclick="scheduleAppointment()" 
-                        class="w-full md:w-auto px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                        Đăng ký lịch hẹn
-                    </button>
+
+                    <!-- 3.2 & 3.3 Info -->
+                    <div id="appointmentInfo" class="hidden border rounded-lg p-4 bg-green-50">
+                        <h3 class="font-semibold text-gray-900 mb-3">Thông tin lịch hẹn</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Mã hẹn:</span>
+                                <span class="font-bold text-blue-600" id="appointmentCodeDisplay">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Ngày hẹn:</span>
+                                <span class="font-medium" id="appointmentDateDisplay">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Giờ hẹn:</span>
+                                <span class="font-medium" id="appointmentTimeDisplay">-</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-white rounded border-2 border-blue-200">
+                            <p class="text-xs text-gray-700">
+                                <strong>Hướng dẫn:</strong> Vui lòng in hoặc ghi lại mã hẹn này. Khi đến KTX, bạn cần xuất trình:
+                            </p>
+                            <ul class="list-disc list-inside text-xs text-gray-600 mt-2 space-y-1">
+                                <li>Mã hẹn: <span class="font-bold" id="appointmentCodeForPrint">-</span></li>
+                                <li>Giấy tờ tùy thân (CMND/CCCD)</li>
+                                <li>Thẻ sinh viên</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Step 4: Sign Contract -->
             <div id="step4" class="bg-white shadow-lg rounded-lg p-6 mb-6 hidden">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">4. Ký biên bản bàn giao phòng</h2>
+                <div class="flex items-center mb-4">
+                    <div class="flex-shrink-0 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-3">4</div>
+                    <h2 class="text-xl font-semibold text-gray-900">Ký biên bản bàn giao phòng</h2>
+                </div>
                 <div class="space-y-4">
                     <div class="bg-green-50 border-l-4 border-green-400 p-4">
                         <p class="text-sm text-green-700">
-                            Vui lòng đọc và ký biên bản bàn giao phòng trước khi nhận chìa khóa.
+                            <strong>Lưu ý (BR4):</strong> Sinh viên phải ký biên bản bàn giao phòng trước khi nhận chìa khóa. Vui lòng đọc kỹ và ký biên bản.
                         </p>
                     </div>
-                    <div class="border rounded-lg p-4 max-h-96 overflow-y-auto">
-                        <h3 class="font-semibold mb-2">Biên bản bàn giao phòng</h3>
-                        <p class="text-sm text-gray-700 mb-4">
-                            Bên giao: Ban Quản lý Ký túc xá<br>
-                            Bên nhận: <span id="contractStudentName"></span><br>
-                            Phòng: <span id="contractRoom"></span><br>
-                            Ngày: <span id="contractDate"></span>
+                    
+                    <!-- 3.2 & 3.3 Reminder -->
+                    <div class="bg-blue-50 border rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-900 mb-2">3.2 & 3.3 Xuất trình giấy tờ/Mã hẹn tại KTX</h3>
+                        <p class="text-sm text-gray-700 mb-2">
+                            Khi đến KTX theo lịch hẹn, bạn cần xuất trình:
                         </p>
-                        <p class="text-sm text-gray-700">
-                            Tôi xác nhận đã nhận phòng và các tài sản trong phòng theo đúng tình trạng hiện tại.
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li>Mã hẹn: <span class="font-bold text-blue-600" id="reminderAppointmentCode">-</span></li>
+                            <li>Giấy tờ tùy thân (CMND/CCCD) - <strong>Bắt buộc (BR2)</strong></li>
+                            <li>Thẻ sinh viên</li>
+                        </ul>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Ban Quản lý sẽ đối chiếu thông tin trên giấy tờ với hồ sơ đăng ký trên hệ thống để xác thực.
                         </p>
+                    </div>
+
+                    <div class="border-2 border-gray-300 rounded-lg p-6 max-h-96 overflow-y-auto bg-white">
+                        <div class="text-center mb-4 pb-4 border-b">
+                            <h3 class="text-xl font-bold text-gray-900">BIÊN BẢN BÀN GIAO PHÒNG</h3>
+                            <p class="text-sm text-gray-600">Ký túc xá - Trường Đại học Văn Lang</p>
+                        </div>
+                        <div class="space-y-4 text-sm text-gray-700">
+                            <div>
+                                <p><strong>Bên giao:</strong> Ban Quản lý Ký túc xá</p>
+                                <p><strong>Bên nhận:</strong> <span id="contractStudentName"></span></p>
+                                <p><strong>MSSV:</strong> <span id="contractMSSV"></span></p>
+                                <p><strong>Phòng:</strong> <span id="contractRoom"></span></p>
+                                <p><strong>Ngày:</strong> <span id="contractDate"></span></p>
+                            </div>
+                            <div class="border-t pt-4">
+                                <h4 class="font-semibold mb-2">Nội dung bàn giao:</h4>
+                                <p class="mb-2">Bên giao bàn giao, bên nhận nhận bàn giao phòng ký túc xá với các tài sản sau:</p>
+                                <ul class="list-disc list-inside space-y-1 ml-4">
+                                    <li>Chìa khóa phòng: 01 bộ</li>
+                                    <li>Thẻ KTX: 01 thẻ</li>
+                                    <li>Tài sản trong phòng theo đúng tình trạng hiện tại</li>
+                                </ul>
+                            </div>
+                            <div class="border-t pt-4">
+                                <h4 class="font-semibold mb-2">Cam kết của bên nhận:</h4>
+                                <p>Tôi xác nhận đã nhận phòng và các tài sản trong phòng theo đúng tình trạng hiện tại. Tôi cam kết:</p>
+                                <ul class="list-disc list-inside space-y-1 ml-4 mt-2">
+                                    <li>Giữ gìn và bảo quản tài sản được bàn giao</li>
+                                    <li>Tuân thủ nội quy ký túc xá</li>
+                                    <li>Thanh toán đầy đủ các khoản phí theo quy định</li>
+                                    <li>Bàn giao lại phòng và tài sản khi kết thúc thời hạn ở</li>
+                                </ul>
+                            </div>
+                            <div class="border-t pt-4">
+                                <p class="text-xs text-gray-500">
+                                    Biên bản này có giá trị pháp lý và được lưu trữ trong hệ thống.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex items-start">
-                        <input type="checkbox" id="agreeContract" 
+                        <input type="checkbox" id="agreeContract" required
                             class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
                         <label for="agreeContract" class="ml-2 block text-sm text-gray-900">
-                            Tôi đồng ý với các điều khoản trong biên bản bàn giao phòng
+                            Tôi đã đọc và đồng ý với các điều khoản trong biên bản bàn giao phòng. Tôi cam kết thực hiện đúng các quy định.
                         </label>
                     </div>
                     <button onclick="signContract()" 
-                        class="w-full md:w-auto px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                        class="w-full md:w-auto px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-semibold">
                         Ký biên bản
                     </button>
                 </div>
             </div>
 
             <!-- Completed Status -->
-            <div id="completed" class="bg-green-50 border-l-4 border-green-400 p-6 hidden">
-                <h2 class="text-xl font-semibold text-green-900 mb-2">Hoàn tất thủ tục</h2>
-                <p class="text-green-700">
-                    Bạn đã hoàn tất tất cả các thủ tục. Vui lòng đến KTX theo lịch hẹn để nhận chìa khóa và thẻ KTX.
-                </p>
+            <div id="completed" class="bg-green-50 border-l-4 border-green-400 p-6 rounded-lg hidden">
+                <div class="flex items-center mb-4">
+                    <svg class="w-8 h-8 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h2 class="text-xl font-semibold text-green-900">Hoàn tất thủ tục</h2>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-green-700 font-medium">
+                        Chúc mừng! Bạn đã hoàn tất tất cả các thủ tục đăng ký vào ở KTX.
+                    </p>
+                    
+                    <!-- 4.1 & 4.2 Info -->
+                    <div class="bg-white border-2 border-green-200 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-900 mb-3">4. Hoàn tất & Nhận phòng</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-gray-900">4.1 Trạng thái đã cập nhật</p>
+                                    <p class="text-sm text-gray-600">Hệ thống đã cập nhật trạng thái "Đã vào ở" cho bạn.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-green-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-gray-900">4.2 Nhận chìa khóa, thẻ KTX và Hợp đồng</p>
+                                    <p class="text-sm text-gray-600">Vui lòng đến KTX theo lịch hẹn để nhận:</p>
+                                    <ul class="list-disc list-inside text-sm text-gray-600 mt-1 ml-4">
+                                        <li>Chìa khóa phòng</li>
+                                        <li>Thẻ KTX</li>
+                                        <li>Hợp đồng chính thức (điện tử/văn bản)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appointment Reminder -->
+                    <div id="completedAppointmentInfo" class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-900 mb-2">Thông tin lịch hẹn nhận phòng</h4>
+                        <div class="grid grid-cols-2 gap-3 text-sm">
+                            <div>
+                                <span class="text-gray-600">Mã hẹn:</span>
+                                <span class="font-bold text-blue-600 ml-2" id="completedAppointmentCode">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Ngày hẹn:</span>
+                                <span class="font-medium ml-2" id="completedAppointmentDate">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Giờ hẹn:</span>
+                                <span class="font-medium ml-2" id="completedAppointmentTime">-</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Phòng:</span>
+                                <span class="font-medium text-blue-600 ml-2" id="completedRoom">-</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 p-3 bg-white rounded border border-blue-200">
+                            <p class="text-xs text-gray-700">
+                                <strong>Lưu ý:</strong> Khi đến KTX, vui lòng mang theo mã hẹn và giấy tờ tùy thân để nhận phòng.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

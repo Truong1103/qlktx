@@ -44,15 +44,20 @@ function loadRegistrationPage() {
     document.getElementById('mssv').value = user.mssv || '';
     document.getElementById('fullName').value = user.name || '';
 
-    // Check if already registered
-    const existingReg = storage.registrations.find(r => r.mssv === user.mssv);
+    // Check if already registered (only block if pending or approved, allow if rejected)
+    const existingReg = storage.registrations.find(r => 
+        r.mssv === user.mssv && (r.status === 'pending' || r.status === 'approved' || r.status === 'completed')
+    );
     if (existingReg) {
-        document.getElementById('alreadyRegistered').classList.remove('hidden');
-        document.getElementById('registrationForm').style.display = 'none';
-        document.getElementById('viewRegistration').onclick = () => {
-            showRegistrationDetails(existingReg);
-        };
-        return;
+        // Only show warning if status is pending or approved
+        if (existingReg.status === 'pending' || existingReg.status === 'approved' || existingReg.status === 'completed') {
+            document.getElementById('alreadyRegistered').classList.remove('hidden');
+            document.getElementById('registrationForm').style.display = 'none';
+            document.getElementById('viewRegistration').onclick = () => {
+                showRegistrationDetails(existingReg);
+            };
+            return;
+        }
     }
 
     // Setup form submission
