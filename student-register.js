@@ -49,19 +49,38 @@ function loadRegistrationPage() {
         r.mssv === user.mssv && (r.status === 'pending' || r.status === 'approved' || r.status === 'completed')
     );
     if (existingReg) {
-        // Only show warning if status is pending or approved
+        // Show warning but still allow viewing the form for demo purposes
         if (existingReg.status === 'pending' || existingReg.status === 'approved' || existingReg.status === 'completed') {
             document.getElementById('alreadyRegistered').classList.remove('hidden');
-            document.getElementById('registrationForm').style.display = 'none';
+            // Don't hide the form - allow viewing for demo
             document.getElementById('viewRegistration').onclick = () => {
                 showRegistrationDetails(existingReg);
             };
-            return;
         }
     }
 
     // Setup form submission
     document.getElementById('registrationForm').addEventListener('submit', handleRegistrationSubmit);
+    
+    // File upload preview
+    const fileInput = document.getElementById('priorityDocs');
+    const fileList = document.getElementById('fileList');
+    
+    if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+            const files = e.target.files;
+            if (files.length > 0) {
+                let fileListHTML = '<div class="mt-2"><p class="text-sm font-medium text-gray-700">File đã chọn:</p><ul class="list-disc list-inside text-sm text-gray-600 mt-1">';
+                for (let i = 0; i < files.length; i++) {
+                    fileListHTML += `<li>${files[i].name} (${(files[i].size / 1024 / 1024).toFixed(2)} MB)</li>`;
+                }
+                fileListHTML += '</ul></div>';
+                fileList.innerHTML = fileListHTML;
+            } else {
+                fileList.innerHTML = '';
+            }
+        });
+    }
 }
 
 function handleRegistrationSubmit(e) {
@@ -69,6 +88,16 @@ function handleRegistrationSubmit(e) {
     
     const user = JSON.parse(localStorage.getItem('currentUser'));
     const formData = new FormData(e.target);
+    
+    // Check if already has pending/approved registration
+    const existingReg = storage.registrations.find(r => 
+        r.mssv === user.mssv && (r.status === 'pending' || r.status === 'approved' || r.status === 'completed')
+    );
+    
+    if (existingReg) {
+        showNotification('Bạn đã có đơn đăng ký đang xử lý. Vui lòng chờ kết quả hoặc liên hệ admin để hủy đơn cũ.', 'error');
+        return;
+    }
     
     // Validate student status (BR1)
     // In real app, this would check with student database

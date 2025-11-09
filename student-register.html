@@ -32,118 +32,207 @@
             <h1 class="text-3xl font-bold text-gray-900 mb-6">Đăng ký Ký túc xá</h1>
 
             <!-- Registration Period Info -->
-            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-                <div class="flex">
-                    <div class="ml-3">
-                        <p class="text-sm text-blue-700">
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6 rounded-lg">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div>
+                        <p class="text-sm font-medium text-blue-900">
                             <strong>Thời gian nhận hồ sơ:</strong> 
-                            <span id="regPeriod">Đang tải...</span>
+                            <span id="regPeriod" class="text-blue-700">Đang tải...</span>
+                        </p>
+                        <p class="text-xs text-blue-600 mt-1">
+                            Vui lòng điền đầy đủ thông tin theo các bước dưới đây
                         </p>
                     </div>
                 </div>
             </div>
 
             <!-- Check if already registered -->
-            <div id="alreadyRegistered" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-                <p class="text-sm text-yellow-700">
-                    Bạn đã có đơn đăng ký. <a href="#" id="viewRegistration" class="font-medium underline">Xem chi tiết</a>
-                </p>
+            <div id="alreadyRegistered" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-lg">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <div class="flex-1">
+                        <p class="text-sm text-yellow-700">
+                            <strong>Lưu ý:</strong> Bạn đã có đơn đăng ký. 
+                            <a href="#" id="viewRegistration" class="font-medium underline hover:text-yellow-800">Xem chi tiết đơn đăng ký</a>
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <!-- Registration Form -->
-            <form id="registrationForm" class="bg-white shadow-lg rounded-lg p-8 space-y-6">
-                <!-- Room Selection -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Loại phòng mong muốn</label>
-                    <select id="roomType" name="roomType" required 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                        <option value="">-- Chọn loại phòng --</option>
-                        <option value="4">Phòng 4 người</option>
-                        <option value="6">Phòng 6 người</option>
-                        <option value="8">Phòng 8 người</option>
-                    </select>
+            <form id="registrationForm" class="bg-white shadow-lg rounded-lg p-8 space-y-8">
+                <!-- Step 1: Room Selection -->
+                <div class="border-b pb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold mr-3">1</div>
+                        <h2 class="text-xl font-semibold text-gray-900">Chọn loại phòng và thời hạn ở</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Loại phòng mong muốn <span class="text-red-500">*</span>
+                            </label>
+                            <select id="roomType" name="roomType" required 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900">
+                                <option value="">-- Chọn loại phòng --</option>
+                                <option value="4">Phòng 4 người</option>
+                                <option value="6">Phòng 6 người</option>
+                                <option value="8">Phòng 8 người</option>
+                            </select>
+                            <p class="mt-1 text-xs text-gray-500">Vui lòng chọn loại phòng phù hợp với nhu cầu của bạn</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Thời hạn ở <span class="text-red-500">*</span>
+                            </label>
+                            <select id="duration" name="duration" required 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900">
+                                <option value="">-- Chọn thời hạn --</option>
+                                <option value="1">1 học kỳ</option>
+                                <option value="2">1 năm học</option>
+                                <option value="3">Toàn khóa học</option>
+                            </select>
+                            <p class="mt-1 text-xs text-gray-500">Chọn thời hạn bạn muốn ở tại KTX</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Duration -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Thời hạn ở</label>
-                    <select id="duration" name="duration" required 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                        <option value="">-- Chọn thời hạn --</option>
-                        <option value="1">1 học kỳ</option>
-                        <option value="2">1 năm học</option>
-                        <option value="3">Toàn khóa học</option>
-                    </select>
-                </div>
-
-                <!-- Personal Information -->
-                <div class="border-t pt-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Thông tin cá nhân</h3>
+                <!-- Step 2: Personal Information -->
+                <div class="border-b pb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold mr-3">2</div>
+                        <h2 class="text-xl font-semibold text-gray-900">Thông tin cá nhân</h2>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4 ml-11">Vui lòng điền đầy đủ và chính xác thông tin cá nhân</p>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Họ và tên</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Họ và tên <span class="text-red-500">*</span>
+                            </label>
                             <input type="text" id="fullName" name="fullName" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                placeholder="Nhập họ và tên đầy đủ"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">MSSV</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                MSSV <span class="text-red-500">*</span>
+                            </label>
                             <input type="text" id="mssv" name="mssv" required readonly
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100">
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-gray-50 text-gray-600">
+                            <p class="mt-1 text-xs text-gray-500">Mã số sinh viên (tự động điền)</p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Số điện thoại</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Số điện thoại <span class="text-red-500">*</span>
+                            </label>
                             <input type="tel" id="phone" name="phone" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                placeholder="0901234567"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Email <span class="text-red-500">*</span>
+                            </label>
                             <input type="email" id="email" name="email" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                placeholder="example@email.com"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">CMND/CCCD</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                CMND/CCCD <span class="text-red-500">*</span>
+                            </label>
                             <input type="text" id="idCard" name="idCard" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                placeholder="001234567890"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Ngày sinh</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Ngày sinh <span class="text-red-500">*</span>
+                            </label>
                             <input type="date" id="dob" name="dob" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
                     </div>
                 </div>
 
-                <!-- Priority Documents -->
-                <div class="border-t pt-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Giấy tờ ưu tiên (nếu có)</h3>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Tải lên giấy tờ xác minh</label>
-                        <input type="file" id="priorityDocs" name="priorityDocs" accept=".pdf,.jpg,.jpeg,.png"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                        <p class="mt-1 text-sm text-gray-500">Định dạng: PDF, JPG, PNG (tối đa 5MB)</p>
+                <!-- Step 3: Priority Documents -->
+                <div class="border-b pb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold mr-3">3</div>
+                        <h2 class="text-xl font-semibold text-gray-900">Giấy tờ ưu tiên (nếu có)</h2>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4 ml-11">Tải lên các giấy tờ xác minh danh tính/đối tượng ưu tiên (nếu có)</p>
+                    <div class="ml-11">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Tải lên giấy tờ xác minh
+                        </label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-400 transition-colors">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="priorityDocs" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                        <span>Tải lên file</span>
+                                        <input id="priorityDocs" name="priorityDocs" type="file" accept=".pdf,.jpg,.jpeg,.png" class="sr-only">
+                                    </label>
+                                    <p class="pl-1">hoặc kéo thả vào đây</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PDF, JPG, PNG (tối đa 5MB mỗi file)</p>
+                            </div>
+                        </div>
+                        <div id="fileList" class="mt-2 text-sm text-gray-600"></div>
                     </div>
                 </div>
 
-                <!-- Review Section -->
-                <div class="border-t pt-6">
-                    <div class="flex items-start">
-                        <input type="checkbox" id="confirmInfo" name="confirmInfo" required
-                            class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                        <label for="confirmInfo" class="ml-2 block text-sm text-gray-900">
-                            Tôi xác nhận tất cả thông tin trên là chính xác và đầy đủ
-                        </label>
+                <!-- Step 4: Review and Confirm -->
+                <div class="pb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold mr-3">4</div>
+                        <h2 class="text-xl font-semibold text-gray-900">Kiểm tra lại thông tin</h2>
+                    </div>
+                    <div class="ml-11">
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
+                            <p class="text-sm text-gray-700 mb-2">
+                                <strong>Lưu ý:</strong> Vui lòng kiểm tra lại toàn bộ thông tin đã điền trước khi gửi đơn.
+                            </p>
+                            <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                                <li>Thông tin cá nhân phải chính xác và đầy đủ</li>
+                                <li>Giấy tờ tùy thân phải hợp lệ</li>
+                                <li>Đơn đăng ký chỉ hợp lệ khi đủ thông tin và xác thực (BR3)</li>
+                            </ul>
+                        </div>
+                        <div class="flex items-start">
+                            <input type="checkbox" id="confirmInfo" name="confirmInfo" required
+                                class="mt-1 h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label for="confirmInfo" class="ml-3 block text-sm text-gray-900">
+                                <span class="font-medium">Tôi xác nhận tất cả thông tin trên là chính xác và đầy đủ</span>
+                                <span class="text-red-500">*</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="flex justify-end space-x-4 pt-6 border-t">
-                    <a href="student-dashboard.html" class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                    <a href="student-dashboard.html" 
+                        class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors">
                         Hủy
                     </a>
                     <button type="submit" 
-                        class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Hoàn tất gửi đơn
+                        class="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 font-semibold shadow-md hover:shadow-lg transition-all">
+                        <span class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Hoàn tất gửi đơn
+                        </span>
                     </button>
                 </div>
             </form>
